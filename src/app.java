@@ -55,11 +55,8 @@ public class app {
         } else {
             System.out.println("\nThere is no path!");
             System.out.println("Number of states: " + (count - 1));
+            printStates(size, nodes);
         }
-
-//        for (pairs exploreNode : exploreNodes) {
-//            System.out.println(exploreNode.getFirst() + " " + exploreNode.getSecond());
-//        }
     }
 
     public static void print(int size, ArrayList<String> path) {
@@ -153,8 +150,7 @@ public class app {
                     System.out.print("H");
                 else
                     System.out.print(nodes.get(i).getSymbol());
-//                System.out.print(nodes.get(i).getSymbol());
-                if (i%size==4)
+                if (i%size==size-1)
                     System.out.println();
             }
         }
