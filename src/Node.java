@@ -6,6 +6,8 @@ public class Node {
     char symbol;
     boolean explored;
     boolean correct;
+    int first;
+    int second;
 
     public char getSymbol() {
         return symbol;
@@ -51,7 +53,15 @@ public class Node {
         this.correct = correct;
     }
 
-    public Node(Node top, Node bottom, Node left, Node right, char symbol, boolean explored, boolean correct) {
+    public int getFirst() {
+        return first;
+    }
+
+    public int getSecond() {
+        return second;
+    }
+
+    public Node(Node top, Node bottom, Node left, Node right, char symbol, boolean explored, boolean correct, int first, int second) {
         this.top = top;
         this.bottom = bottom;
         this.left = left;
@@ -59,5 +69,7 @@ public class Node {
         this.symbol = symbol;
         this.explored = explored;
         this.correct = correct;
+        this.first = first;
+        this.second = second;
     }
 }

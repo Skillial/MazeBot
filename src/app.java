@@ -3,9 +3,28 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+class pairs {
+    int first;
+    int second;
+
+    public pairs(int first, int second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    public int getFirst() {
+        return first;
+    }
+
+    public int getSecond() {
+        return second;
+    }
+}
+
 public class app {
     static boolean flag = true;
     static int count = 0;
+    static ArrayList<pairs> exploreNodes = new ArrayList<>();
 
     public static void main(String[] args) {
         ArrayList<String> path = new ArrayList<>();
@@ -32,10 +51,14 @@ public class app {
             System.out.println("\nExplored path: ");
             printAns(size, nodes);
             System.out.println("Number of states: " + count);
+            printStates(size, nodes);
         } else {
             System.out.println("\nThere is no path!");
             System.out.println("Number of states: " + (count - 1));
         }
+//        for (pairs exploreNode : exploreNodes) {
+//            System.out.println(exploreNode.getFirst() + " " + exploreNode.getSecond());
+//        }
     }
 
     public static void print(int size, ArrayList<String> path) {
@@ -49,14 +72,14 @@ public class app {
             for (int j = 0; j < size; j++) {
                 if (i == 0) {
                     if (j == 0)
-                        nodes.add(new Node(null, null, null, null, path.get(i).charAt(j), false, false));
+                        nodes.add(new Node(null, null, null, null, path.get(i).charAt(j), false, false, i, j));
                     else
-                        nodes.add(new Node(null, null, nodes.get(j - 1), null, path.get(i).charAt(j), false, false));
+                        nodes.add(new Node(null, null, nodes.get(j - 1), null, path.get(i).charAt(j), false, false, i, j));
                 } else {
                     if (j == 0)
-                        nodes.add(new Node(nodes.get(i * size - size), null, null, null, path.get(i).charAt(j), false, false));
+                        nodes.add(new Node(nodes.get(i * size - size), null, null, null, path.get(i).charAt(j), false, false, i, j));
                     else
-                        nodes.add(new Node(nodes.get(i * size + j - size), null, nodes.get(i * size + j - 1), null, path.get(i).charAt(j), false, false));
+                        nodes.add(new Node(nodes.get(i * size + j - size), null, nodes.get(i * size + j - 1), null, path.get(i).charAt(j), false, false, i, j));
                 }
             }
         for (int i = 0; i < size; i++)
@@ -83,8 +106,10 @@ public class app {
     }
 
     public static void DFS(Node check) {
+
         if (!check.isExplored()) {
             count += 1;
+            exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
             check.setExplored(true);
             if (check.getSymbol() != 'G' && flag) {
                 check.setCorrect(true);
@@ -98,6 +123,7 @@ public class app {
                     DFS(check.getTop());
                 if (flag) {
                     count += 1;
+                    exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
                     check.setCorrect(false);
                 }
             } else {
@@ -110,14 +136,27 @@ public class app {
     public static void printAns(int size, ArrayList<Node> nodes) {
         for (int i = 0; i < nodes.size(); i++) {
             if (nodes.get(i).isCorrect() || nodes.get(i).isExplored())
-                System.out.print("∵"); //
+                System.out.print("C"); //∵
             else
                 System.out.print(nodes.get(i).getSymbol());
-            if ((i - (size-1)) % size == 0)
+            if ((i - (size - 1)) % size == 0)
                 System.out.println();
         }
     }
+
+    public static void printStates(int size, ArrayList<Node> nodes) {
+        for (int k = 0; k < count; k++) {
+            System.out.println("\nState " + k + ":");
+            for (int i = 0; i < nodes.size(); i++) {
+                if (((i - (size - 1)) % size == exploreNodes.get(k).getFirst())) // i * size + j the index in the arraylist
+                    System.out.print("X");
+                else if (nodes.get(i).isCorrect() || nodes.get(i).isExplored())
+                    System.out.print("C"); //∵
+                else
+                    System.out.print(nodes.get(i).getSymbol());
+                if ((i - (size - 1)) % size == 0)
+                    System.out.println();
+            }
+        }
+    }
 }
-// to do:
-// 1. UI
-// 2. order of states explored
