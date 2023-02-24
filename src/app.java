@@ -56,6 +56,7 @@ public class app {
             System.out.println("\nThere is no path!");
             System.out.println("Number of states: " + (count - 1));
         }
+
 //        for (pairs exploreNode : exploreNodes) {
 //            System.out.println(exploreNode.getFirst() + " " + exploreNode.getSecond());
 //        }
@@ -146,15 +147,14 @@ public class app {
 
     public static void printStates(int size, ArrayList<Node> nodes) {
         for (int k = 0; k < count; k++) {
-            System.out.println("\nState " + k + ":");
+            System.out.println("\nState " + (k+1) + ":");
             for (int i = 0; i < nodes.size(); i++) {
-                if (((i - (size - 1)) % size == exploreNodes.get(k).getFirst())) // i * size + j the index in the arraylist
-                    System.out.print("X");
-                else if (nodes.get(i).isCorrect() || nodes.get(i).isExplored())
-                    System.out.print("C"); //∵
+                if(exploreNodes.get(k).getFirst()*size+ exploreNodes.get(k).getSecond()==i)
+                    System.out.print("H");
                 else
                     System.out.print(nodes.get(i).getSymbol());
-                if ((i - (size - 1)) % size == 0)
+//                System.out.print(nodes.get(i).getSymbol());
+                if (i%size==4)
                     System.out.println();
             }
         }
