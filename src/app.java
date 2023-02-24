@@ -19,7 +19,7 @@ public class app {
             while (filesc.hasNextLine())
                 path.add(filesc.nextLine());
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred while reading the file.");
             e.printStackTrace();
         }
         print(size, path);
@@ -28,13 +28,13 @@ public class app {
         DFS(nodes.get(start));
         if (!flag) {
             System.out.println("\nFinal path: ");
-            printAns(nodes);
+            printAns(size, nodes);
             System.out.println("\nExplored path: ");
-            printAns(nodes);
-            System.out.println("number of counts: " + count);
+            printAns(size, nodes);
+            System.out.println("Number of states: " + count);
         } else {
             System.out.println("\nThere is no path!");
-            System.out.println("number of counts: " + (count - 1));
+            System.out.println("Number of states: " + (count - 1));
         }
     }
 
@@ -107,14 +107,17 @@ public class app {
         }
     }
 
-    public static void printAns(ArrayList<Node> nodes) {
+    public static void printAns(int size, ArrayList<Node> nodes) {
         for (int i = 0; i < nodes.size(); i++) {
             if (nodes.get(i).isCorrect() || nodes.get(i).isExplored())
-                System.out.print("∵");
+                System.out.print("∵"); //
             else
                 System.out.print(nodes.get(i).getSymbol());
-            if ((i - 4) % 5 == 0)
+            if ((i - (size-1)) % size == 0)
                 System.out.println();
         }
     }
 }
+// to do:
+// 1. UI
+// 2. order of states explored
