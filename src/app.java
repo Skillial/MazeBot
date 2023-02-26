@@ -104,30 +104,39 @@ public class app {
     }
 
     public static void DFS(Node check) {
-
-        if (!check.isExplored()) {
+        check.setExplored(true);
+        if (check.getSymbol() != 'G' && flag) {
+            check.setCorrect(true);
+            if (check.getRight() != null && check.getRight().getSymbol() != '#' && flag && !check.getRight().isExplored()) {
+                count += 1;
+                exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
+                DFS(check.getRight());
+            }
+            if (check.getBottom() != null && check.getBottom().getSymbol() != '#' && flag && !check.getBottom().isExplored()) {
+                count += 1;
+                exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
+                DFS(check.getBottom());
+            }
+            if (check.getLeft() != null && check.getLeft().getSymbol() != '#' && flag && !check.getLeft().isExplored()) {
+                count += 1;
+                exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
+                DFS(check.getLeft());
+            }
+            if (check.getTop() != null && check.getTop().getSymbol() != '#' && flag && !check.getTop().isExplored()) {
+                count += 1;
+                exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
+                DFS(check.getTop());
+            }
+            if (flag) {
+                count += 1;
+                exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
+                check.setCorrect(false);
+            }
+        } else {
             count += 1;
             exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
-            check.setExplored(true);
-            if (check.getSymbol() != 'G' && flag) {
-                check.setCorrect(true);
-                if (check.getRight() != null && check.getRight().getSymbol() != '#' && flag)
-                    DFS(check.getRight());
-                if (check.getBottom() != null && check.getBottom().getSymbol() != '#' && flag)
-                    DFS(check.getBottom());
-                if (check.getLeft() != null && check.getLeft().getSymbol() != '#' && flag)
-                    DFS(check.getLeft());
-                if (check.getTop() != null && check.getTop().getSymbol() != '#' && flag)
-                    DFS(check.getTop());
-                if (flag) {
-                    count += 1;
-                    exploreNodes.add(new pairs(check.getFirst(), check.getSecond()));
-                    check.setCorrect(false);
-                }
-            } else {
-                flag = false;
-                check.setCorrect(true);
-            }
+            flag = false;
+            check.setCorrect(true);
         }
     }
 
@@ -144,13 +153,13 @@ public class app {
 
     public static void printStates(int size, ArrayList<Node> nodes) {
         for (int k = 0; k < count; k++) {
-            System.out.println("\nState " + (k+1) + ":");
+            System.out.println("\nState " + (k + 1) + ":");
             for (int i = 0; i < nodes.size(); i++) {
-                if(exploreNodes.get(k).getFirst()*size+ exploreNodes.get(k).getSecond()==i)
+                if (exploreNodes.get(k).getFirst() * size + exploreNodes.get(k).getSecond() == i)
                     System.out.print("H");
                 else
                     System.out.print(nodes.get(i).getSymbol());
-                if (i%size==size-1)
+                if (i % size == size - 1)
                     System.out.println();
             }
         }
